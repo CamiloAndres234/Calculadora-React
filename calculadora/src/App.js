@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Contador from './Componentes/Calculadora'; // 👈 Importamos tu componente
+import Contador from './Componentes/Calculadora'; // Importamos tu componente
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           Learn React
         </a>
 
-        {/* 👇 Aquí añadimos tu componente */}
+        {/*Aquí añadimos tu componente */}
         <Contador />
       </header>
     </div>
