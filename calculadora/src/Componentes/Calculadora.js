@@ -1,73 +1,52 @@
 import { useState } from "react";
-import Suma from "./Suma";
+import Operadores from "./Operadores";
 
 const Contador = () => {
-  const [contador, setContador] = useState(0); // total acumulado
-  const [pantalla, setPantalla] = useState(""); // lo que se muestra
-  const [resultado, setResultado] = useState(null); // último resultado
+  const [contador, setContador] = useState("");
+  const [resultado, setResultado] = useState("");
 
-  // muestra los números al presionar botones
-  const ImputNumber = (num) => setPantalla(pantalla + num);
-
-  // agrega el signo +
-  const manejarSuma = () => {
-    if (!pantalla.endsWith("+") && pantalla !== "") {
-      setPantalla(pantalla + " + ");
-    }
+  const ImputNumber = (num) => setContador(contador + num);
+  const borrar = () => {
+    setContador("");
+    setResultado("");
   };
 
-  // calcula el resultado
   const calcular = () => {
     try {
-      const partes = pantalla.split("+").map((p) => p.trim());
-      if (partes.length === 2) {
-        const num1 = Number(partes[0]);
-        const num2 = Number(partes[1]);
-        const res = num1 + num2;
-        setResultado(res);
-        setPantalla(`${pantalla} = ${res}`);
-        setContador(contador + res); // acumula
-      }
+      setResultado(eval(contador));
     } catch {
-      setPantalla("Error");
+      setResultado("Error");
     }
-  };
-
-  // limpia la pantalla sin tocar el contador
-  const borrar = () => {
-    setPantalla("");
-    setResultado(null);
   };
 
   return (
     <div>
-      <label>Contador: {contador}</label>
+      <h3>Calculadora simple</h3>
+      <label>Operación: {contador}</label>
       <br />
-      <label>Pantalla: {pantalla}</label>
-      <br /><br />
+      <label>Resultado: {resultado}</label>
+      <br />
 
       {/* Botones numéricos */}
-      <button onClick={() => ImputNumber(1)}>1</button>
-      <button onClick={() => ImputNumber(2)}>2</button>
-      <button onClick={() => ImputNumber(3)}>3</button>
-      <button onClick={() => ImputNumber(4)}>4</button>
-      <button onClick={() => ImputNumber(5)}>5</button>
-      <button onClick={() => ImputNumber(6)}>6</button>
-      <button onClick={() => ImputNumber(7)}>7</button>
-      <button onClick={() => ImputNumber(8)}>8</button>
-      <button onClick={() => ImputNumber(9)}>9</button>
-      <button onClick={() => ImputNumber(0)}>0</button>
+      <div>
+        <button onClick={() => ImputNumber(1)}>1</button>
+        <button onClick={() => ImputNumber(2)}>2</button>
+        <button onClick={() => ImputNumber(3)}>3</button>
+        <button onClick={() => ImputNumber(4)}>4</button>
+        <button onClick={() => ImputNumber(5)}>5</button>
+        <button onClick={() => ImputNumber(6)}>6</button>
+        <button onClick={() => ImputNumber(7)}>7</button>
+        <button onClick={() => ImputNumber(8)}>8</button>
+        <button onClick={() => ImputNumber(9)}>9</button>
+        <button onClick={() => ImputNumber(0)}>0</button>
+      </div>
 
-      <br /><br />
-
-      {/* Botón de suma */}
-      <Suma onSumar={manejarSuma} />
-
-      {/* Botón igual */}
-      <button onClick={calcular}>=</button>
-
-      {/* Botón borrar */}
-      <button onClick={borrar}>Borrar</button>
+      {/* Operadores */}
+      <Operadores
+        onAdd={(op) => setContador(contador + op)}
+        onCalcular={calcular}
+        onBorrar={borrar}
+      />
     </div>
   );
 };
